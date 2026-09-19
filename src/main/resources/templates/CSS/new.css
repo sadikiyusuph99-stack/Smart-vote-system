@@ -1,0 +1,44 @@
+
+.kisanduku-picha {
+    width: 300px;
+    padding: 15px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    text-align: center;
+    column-count: 2;
+}
+
+/* Hakikisha eneo la picha lina vipimo vinavyoeleweka */
+.eneo-picha {
+    width: 100%;
+    height: 200px;
+    border: 2px dashed #aaa;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 10px;
+    overflow: hidden;
+    position: relative;
+}
+
+/* Picha ijaze kisanduku bila kuharibu uwiano */
+.eneo-picha img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Kitufe cha kuchagua picha */
+.kitufe-chagua {
+    display: inline-block;
+    padding: 8px 15px;
+    background-color: #007bff;
+    color: white;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+/* Ficha input ya asili ya file */
+input[type="file"] {
+    display: none;
+}

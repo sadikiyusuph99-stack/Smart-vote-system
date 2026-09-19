@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        h1 {
+            text-align: center;
+            color: #19152e;
+            text-decoration: underline;
+            text-transform: uppercase;
+        }
+        li,p{
+            font-size: 20px;
+            line-height: 1.5;
+        }
+    </style>
+</head>
+<body>
+    <h1>Dear Students Please be Familiar with the rules of election</h1>
+    <form action="submit" method="get">
+    <div class="rules-box">
+        <img src="mustso.png" alt="MUSTSO Logo" height="100" width="100" style="display: block; margin: 0 auto;">
+        <p>The following are the rules of MUSTSO leadership election</p>
+        <ol>
+            <li><strong>Voter Eligibility:</strong>You must be a officially registered student of the college for the current accademic yearwith an active account in the system.</li>
+            <li><strong>Vote Secrecy:</strong>Your vote is your secret. It is strictly forbidden to show,share or cast your vote under the influence or pessure of anyone else.</li>
+            <li><strong>Voting Limit:</strong>Each student is allowed to vote <b>only once</b>. Once you submit your vote your account will be locked automatically, and you can not change your choice.<br> Please choose wisely and made correct choice.</li>
+            <li><strong>Account Security:</strong>It is a serious disciplinary offense to use another student's registration number or password. Strict legal and disciplinary actions will be taken against anyone attempting unauthorized access.</li>
+            <li><strong>Constituency scope:</strong>The system will present candidates for the president, your specific college MP, and your specific department MP based on your registration details.<br> You must cast a vote in all category before submiting.</li>
+            <li><strong>Voting Deadline:</strong>All votes must be cast before the specified deadline. Late submissions will not be accepted.</li>
+            <li><strong>Technical issues:</strong>If a system error or Network failure occurs before completion,The votter must report immedietly to the electroral committee.<br> A vote is only counted if you receive the final "Success Message".</li>
+            <li><strong>Acceptance of Terms:</strong>By checking the box and clicking "proceed", you confirm that you have read and agree to these terms and conditions.</li>
+        </ol>
+        <input type="checkbox" id="agree" onchange="document.getElementById('proceedBtn').disabled = !this.checked" required>
+        <label for="agree">I have read and agree to the terms and conditions.</label>
+        <br><br>
+        <a th:href="@{/6}"><button type="button" id="proceedBtn" disabled style="background-color: rgb(65, 154, 65);">Proceed to Vote</button></a>
+    </div>
+    </form>
+</body>
+</html>

@@ -1,0 +1,64 @@
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body{
+    background: rgb(216, 209, 209);
+}
+
+.container{
+     margin: 0 auto;
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 5px 25px rgba(0,0,0,0.05);
+    padding-bottom: 20px;
+    height: fit-content;
+    max-width: 95%;
+}
+h1{
+    text-align: center;
+    text-transform: uppercase;
+    text-decoration: underline;
+}
+p,input,label{
+    margin-left: 12px;
+}
+input{
+    height: 24px;
+}
+p{
+    font-size: 20px;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+    </style>
+</head>
+<body>
+    <div class="container">
+    <h1>To create an account, please fill the form below</h1>
+    <div th:if="${errorMessage}" style="color:#721c24;background-color:#f8d7da;padding:10px;border-radius:5px;margin-bottom:15px;font-weight:bold;text-align:center;">
+        ⚠️ <span th:text="${errorMessage}">Error</span>
+    </div>
+    <div th:if="${successMessage}" style="color:#155724;background-color:#d4edda;padding:10px;border-radius:5px;margin-bottom:15px;font-weight:bold;text-align:center;">
+        ✅ <span th:text="${successMessage}">Success</span>
+    </div>
+    <form th:action="@{/register}" method="POST">
+        <p>To create a voting account you have to provide correct information as used in your official documents.<br>For an account, you will need to provide your full name, registration number, and a valid email address.</p>
+        <label for="fullname">Full Name:</label><br>
+        <input type="text" id="fullname" name="fullname" required><br><br>
+        <label for="username">Registration Number:</label><br>
+        <input type="text" id="username" name="registration_number" required><br><br>
+        <label for="email">Email Address:</label><br>
+        <input type="email" id="email" name="email" required><br><br>
+        <label for="password">Create Password:</label><br>
+        <input type="password" id="password" name="password" required><br><br>
+        <label for="confirm_password">Confirm Password:</label><br>
+        <input type="password" id="confirm_password" name="confirm_password" required><br><br>
+        <input type="submit" value="Create Account" style="background-color: rgb(75, 159, 75);">
+    </form>
+    </div>
+</body>
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body{
+    background: rgb(216, 209, 209);
+}
+.container-form{
+    margin: 0 auto;
+        background-color: white;
+        border-radius: 12px;
+        box-shadow: 0 5px 25px rgba(0,0,0,0.05);
+        padding-bottom: 20px;
+        height: fit-content;
+}
+h2{
+    text-align: center;
+    text-transform: uppercase;
+}
+img{
+    margin-left: 38%;
+    margin-top: 5px;
+}
+label,input,p{
+    margin-left: 15px;
+}
+input{
+    height: 20px;
+}
+h1{
+    text-align: center;
+}
+
+    </style>
+</head>
+<body>
+    <div Class="container-form">
+        <form th:action="@{/idhinishakura}" method="POST">
+            <!-- Weka hii juu kabisa ya fomu yako ya Login -->
+<div th:if="${loginError}" style="color: #721c24; background-color: #f8d7da; padding: 10px; border-radius: 5px; margin-bottom: 15px; font-weight: bold; text-align: center;">
+    ⚠️ <span th:text="${loginError}">Error Message</span>
+</div>
+            <h1>MBEYA UNIVERSITY OF SCIENCE AND TECHNOLOGY</h1>
+            <img src="must.png">
+            <h2>To join in MUSTSO election please fill the login form</h2>
+            <label for="username">Enter Registration Number:</label><br>
+            <input type="number" id="username" name="registration_number" required><br><br>
+            <label for="password">Password:</label><br>
+            <input type="password" id="password" name="password" required>
+            <p><a th:href="@{/forgot-password}">Forgot Password?</a></p>
+            <input type="submit" value="Login" style="width: 70px;background-color:rgb(60, 141, 60)">
+            <input type="button" value="Create Account" onclick="window.location.href='/signup'">
+    </div>
+</body>
+</html>

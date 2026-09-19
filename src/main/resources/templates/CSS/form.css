@@ -1,0 +1,34 @@
+
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+body { background-color: #0d1a2f; color: #333; }
+
+.ballot-container { margin: 0 auto; background: white; padding: 40px 30px; border-radius: 12px; box-shadow: 0 5px 20px rgba(0,0,0,0.05); }
+.ballot-header { text-align: center; border-bottom: 3px double #003366; padding-bottom: 20px; margin-bottom: 30px; }
+.ballot-header h2 { color: #003366; font-size: 26px; }
+.ballot-header p { color: #666; font-size: 14px; margin-top: 5px; }
+
+.category-title { background: linear-gradient(135deg, #003366, #0055aa); color: white; padding: 12px 15px; margin: 40px 0 20px 0; border-radius: 6px; font-size: 16px; font-weight: bold; text-transform: uppercase; }
+
+.candidates-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; }
+.candidate-card { border: 2px solid #e0e0e0; border-radius: 10px; padding: 25px 20px; text-align: center; background: #fff; cursor: pointer; transition: all 0.3s ease; display: flex; flex-direction: column; align-items: center; }
+
+/* Sehemu ya Picha Mbili za Urais */
+.presidential-photos { display: flex; gap: 20px; justify-content: center; margin-bottom: 15px; width: 100%; }
+.photo-box { display: flex; flex-direction: column; align-items: center; flex: 1; }
+
+.candidate-img { width: 95px; height: 95px; border-radius: 50%; object-fit: cover; border: 3px solid #f0f0f0; background: #eee; margin-bottom: 8px; }
+.single-photo { width: 110px; height: 110px; border-radius: 50%; object-fit: cover; border: 3px solid #f0f0f0; background: #eee; margin-bottom: 8px; }
+
+/* Vitufe vya kuchagua picha */
+.file-input { width: 100%; max-width: 110px; font-size: 10px; color: #666; margin-top: 5px; cursor: pointer; }
+.photo-label { font-size: 11px; color: #003366; font-weight: bold; text-transform: uppercase; letter-spacing: 0.5px; }
+
+.candidate-card h4 { font-size: 16px; color: #222; margin: 15px 0 5px 0; }
+.candidate-card p { font-size: 13px; color: #777; margin-bottom: 15px; }
+.candidate-card input[type="radio"] { width: 24px; height: 24px; cursor: pointer; accent-color: #003366; margin-top: auto; }
+
+.candidate-card:hover { border-color: #0088cc; background-color: #f9fbfd; transform: translateY(-3px); }
+.candidate-card.selected { border-color: #003366; background-color: #ebf3fc; box-shadow: 0 4px 12px rgba(0,51,102,0.15); }
+
+.btn-submit { display: block; width: 100%; background-color: #28a745; color: white; border: none; padding: 16px; font-size: 18px; font-weight: bold; border-radius: 8px; cursor: pointer; margin-top: 50px; }
+footer { text-align: center; margin-top: 40px; color: #888; font-size: 13px; }

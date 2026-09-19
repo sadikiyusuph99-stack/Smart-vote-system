@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="sw" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Matokeo ya Uchaguzi</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { background-color: #f4f6f9; color: #333; padding: 30px 20px; }
+        
+        .dashboard-container { max-width: 1000px; margin: 0 auto; background: white; padding: 40px 30px; border-radius: 12px; box-shadow: 0 5px 25px rgba(0,0,0,0.05); }
+        
+    
+        .dashboard-header { text-align: center; border-bottom: 3px double #003366; padding-bottom: 20px; margin-bottom: 35px; }
+        .dashboard-header h2 { color: #003366; font-size: 28px; }
+        .dashboard-header p { color: #28a745; font-size: 14px; font-weight: bold; margin-top: 5px; text-transform: uppercase; letter-spacing: 1px; }
+        
+        .action-bar { display: flex; gap: 15px; margin-bottom: 30px; justify-content: flex-start; }
+        .btn-action { display: inline-flex; align-items: center; justify-content: center; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px; font-weight: bold; font-size: 15px; border: none; cursor: pointer; transition: 0.3s; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+        .btn-refresh { background-color: #0055aa; }
+        .btn-refresh:hover { background-color: #003366; }
+        .btn-pdf { background-color: #28a745; }
+        .btn-pdf:hover { background-color: #218838; }
+        
+        .table-responsive { width: 100%; overflow-x: auto; margin-top: 10px; }
+        table { width: 100%; border-collapse: collapse; background: white; border-radius: 8px; overflow: hidden; }
+        th, td { padding: 15px 18px; text-align: left; border-bottom: 1px solid #eef2f5; font-size: 15px; }
+        th { background-color: #003366; color: white; text-transform: uppercase; font-size: 13px; letter-spacing: 0.5px; font-weight: 700; }
+        tr:hover { background-color: #f8fafd; }
+        
+        .votes-badge { background-color: #e8f5e9; color: #2e7d32; padding: 6px 14px; border-radius: 20px; font-weight: bold; font-size: 14px; border: 1px solid #c8e6c9; display: inline-block; }
+        
+        .empty-state { text-align: center; color: #999; padding: 40px; font-style: italic; font-size: 15px; }
+        footer { text-align: center; color: #888; font-size: 13px; margin-top: 40px; border-top: 1px solid #eee; padding-top: 15px; }
+    </style>
+</head>
+<body>
+
+    <div class="dashboard-container">
+        <!-- Kichwa cha Ukurasa wa Matokeo -->
+        <div class="dashboard-header">
+            <h2> Result (LIVE)</h2>
+            <p>🔴 Live voting system</p>
+        </div>
+
+        <!-- Sehemu ya Vitufe: Refresh na Download PDF -->
+        <div class="action-bar">
+            <!-- Kitufe cha ku-refresh kura mpya zikizorandishwa na wanafunzi -->
+            <a th:href="@{/admin/results}" class="btn-action btn-refresh">🔄 Refresh Results</a>
+            
+            <!-- Kitufe cha kupakua ripoti ya PDF moja kwa moja kwenye kompyuta -->
+            <a th:href="@{/admin/results/pdf}" class="btn-action btn-pdf">📥 Download PDF</a>
+        </div>
+
+        <!-- Jedwali Kuu la Kuonyesha Wagombea Wote 12 na Kura Zao -->
+        <div class="table-responsive">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Candidate name /Team</th>
+                        <th>Position</th>
+                        <th style="text-align: center; width: 150px;">Total Votes</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Mzunguko (Loop) wa Thymeleaf unaosoma data kutoka Java -->
+                    <tr th:each="row : ${resultsList}">
+                        <td style="font-weight: 600; color: #222;" th:text="${row.name}"></td>
+                        <td style="color: #555;" th:text="${row.position}"></td>
+                        <td style="text-align: center;">
+                            <span class="votes-badge" th:text="${row.total_votes} + ' Votes'">0 Votes</span>
+                        </td>
+                    </tr>
+                    
+                    <!-- Ujumbe utakaoonekana kama hakuna kura yoyote iliyopigwa bado -->
+                    <tr th:if="${#lists.isEmpty(resultsList)}">
+                        <td colspan="3" class="empty-state">No votes available yet.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 Secured E-Voting Administration System | Jopo la Wasimamizi wa Uchaguzi</p>
+    </footer>
+
+</body>
+</html>

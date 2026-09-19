@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-Voting System-Dynamic Ballot</title>
+    <style>
+        
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+body { background-color: #0d1a2f; color: #333; }
+
+.ballot-container { margin: 0 auto; background: white; padding: 40px 30px; border-radius: 12px; box-shadow: 0 5px 20px rgba(0,0,0,0.05); }
+.ballot-header { text-align: center; border-bottom: 3px double #003366; padding-bottom: 20px; margin-bottom: 30px; }
+.ballot-header h2 { color: #003366; font-size: 26px; }
+.ballot-header p { color: #666; font-size: 14px; margin-top: 5px; }
+
+.category-title { background: linear-gradient(135deg, #003366, #0055aa); color: white; padding: 12px 15px; margin: 40px 0 20px 0; border-radius: 6px; font-size: 16px; font-weight: bold; text-transform: uppercase; }
+
+.candidates-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; }
+.candidate-card { border: 2px solid #e0e0e0; border-radius: 10px; padding: 25px 20px; text-align: center; background: #fff; cursor: pointer; transition: all 0.3s ease; display: flex; flex-direction: column; align-items: center; }
+
+/* Sehemu ya Picha Mbili za Urais */
+.presidential-photos { display: flex; gap: 20px; justify-content: center; margin-bottom: 15px; width: 100%; }
+.photo-box { display: flex; flex-direction: column; align-items: center; flex: 1; }
+
+.candidate-img { width: 95px; height: 95px; border-radius: 50%; object-fit: cover; border: 3px solid #f0f0f0; background: #eee; margin-bottom: 8px; }
+.single-photo { width: 110px; height: 110px; border-radius: 50%; object-fit: cover; border: 3px solid #f0f0f0; background: #eee; margin-bottom: 8px; }
+
+/* Vitufe vya kuchagua picha */
+.file-input { width: 100%; max-width: 110px; font-size: 10px; color: #666; margin-top: 5px; cursor: pointer; }
+.photo-label { font-size: 11px; color: #003366; font-weight: bold; text-transform: uppercase; letter-spacing: 0.5px; }
+
+.candidate-card h4 { font-size: 16px; color: #222; margin: 15px 0 5px 0; }
+.candidate-card p { font-size: 13px; color: #777; margin-bottom: 15px; }
+.candidate-card input[type="radio"] { width: 24px; height: 24px; cursor: pointer; accent-color: #003366; margin-top: auto; }
+
+.candidate-card:hover { border-color: #0088cc; background-color: #f9fbfd; transform: translateY(-3px); }
+.candidate-card.selected { border-color: #003366; background-color: #ebf3fc; box-shadow: 0 4px 12px rgba(0,51,102,0.15); }
+
+.btn-submit { display: block; width: 100%; background-color: #28a745; color: white; border: none; padding: 16px; font-size: 18px; font-weight: bold; border-radius: 8px; cursor: pointer; margin-top: 50px; }
+footer { text-align: center; margin-top: 40px; color: #888; font-size: 13px; }
+    </style>
+</head>
+<body>
+    <div class="ballot-container">
+        <div class="ballot-header">
+            <h1>MBEYA UNIVERSITY OF SCIENCE AND TECHNOLOGY</h1>
+            <img src="must.png" alt="MUST Logo" width="140px" height="100px" style="margin-top: 10px;">
+            <h2>OFFICIAL DIGITAL BALLOT PAPER</h2>
+        </div>
+
+        <form id="votingForm" th:action="@{/submitVote}" method="POST" onsubmit="disableSubmitButton()">
+
+            <div class="category-title">1. President &amp; Vice President </div>
+            <div class="candidates-grid">
+                <div th:each="candidate : ${presidents}" class="candidate-card" onclick="selectCard(this)">
+                    <div class="presidential-photos">
+                        <div class="photo-box">
+                            <img th:src="@{/uploads/{path}(path=${candidate.photoPath})}" class="candidate-img" alt=" No Pic">
+                            <div class="photo-label">President</div>
+                        </div>
+                        <div class="photo-box">
+                            <img th:src="@{/uploads/{path}(path=${candidate.vicePhotoPath})}" class="candidate-img" alt=" No Pic">
+                            <div class="photo-label">Vice Pres</div>
+                        </div>
+                    </div>
+                    <h4 th:text="${candidate.fullName}">President Name and Vice Name</h4>
+                    <input type="radio" name="president_vote" th:value="${candidate.id}" required>
+                </div>
+                <p th:if="${#lists.isEmpty(presidents)}">No president candidate uploaded.</p>
+            </div>
+
+            <div class="category-title">2. College MP </div>
+            <div class="candidates-grid">
+                <div th:each="candidate : ${collegeMps}" class="candidate-card" onclick="selectCard(this)">
+                    <img th:src="@{/uploads/{path}(path=${candidate.photoPath})}" class="single-photo" alt=" No Pic">
+                    <h4 th:text="${candidate.fullName}">Candidate Name</h4>
+                    <input type="radio" name="college_vote" th:value="${candidate.id}" required>
+                </div>
+                <p th:if="${#lists.isEmpty(collegeMps)}">No college Mp candidate uploaded.</p>
+            </div>
+
+            <div class="category-title">3.Department MP </div>
+            <div class="candidates-grid">
+                <div th:each="candidate : ${departmentMps}" class="candidate-card" onclick="selectCard(this)">
+                    <img th:src="@{/uploads/{path}(path=${candidate.photoPath})}" class="single-photo" alt=" No Pic">
+                    <h4 th:text="${candidate.fullName}">Candidate Name</h4>
+                    <input type="radio" name="dept_vote" th:value="${candidate.id}" required>
+                </div>
+                <p th:if="${#lists.isEmpty(departmentMps)}">department Mp candidate uploaded.</p>
+            </div>
+
+            <button type="submit" id="submitBtn" class="btn-submit">Submit My Votes Safely</button>
+        </form>
+    </div>
+
+    <footer>
+        <p><i>Your vote,your right.Lets vote for future change.</i></p>
+    </footer>
+
+    <script>
+        function selectCard(cardElement) {
+            const radioButton = cardElement.querySelector('input[type="radio"]');
+            radioButton.checked = true;
+
+            const siblingCards = cardElement.parentElement.querySelectorAll('.candidate-card');
+            siblingCards.forEach(card => {
+                card.classList.remove('selected');
+            });
+
+            cardElement.classList.add('selected');
+        }
+
+        function disableSubmitButton() {
+            const btn = document.getElementById('submitBtn');
+            btn.disabled = true;
+            btn.innerText = "Submitting Your Votes... Please Wait";
+        }
+    </script>
+</body>
+</html>

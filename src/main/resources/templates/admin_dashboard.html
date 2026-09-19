@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Voting System - Admin Dashboard</title>
+    <style>
+        
+* { 
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+ }
+body { background-color: #091220;
+        color: #333;
+ }
+
+.dashboard-container {
+        margin: 0 auto;
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 5px 25px rgba(0,0,0,0.05);
+ }
+
+.dashboard-header { text-align: center; border-bottom: 3px double #003366; padding-bottom: 20px; margin-bottom: 35px; }
+.dashboard-header h2 { color: #003366; font-size: 28px; }
+.dashboard-header p { color: #666; font-size: 14px; margin-top: 5px; font-weight: 600; }
+
+.form-section { background: #fafafa; border: 1px solid #e0e0e0; padding: 25px; border-radius: 8px; margin-bottom: 35px; }
+.section-title { color: #003366; font-size: 18px; margin-bottom: 20px; border-left: 4px solid #0055aa; padding-left: 10px; font-weight: bold; text-transform: uppercase; }
+
+.form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-bottom: 20px; }
+.form-group { display: flex; flex-direction: column; }
+
+label { font-size: 13px; color: #555; font-weight: 600; margin-bottom: 8px; }
+input[type="text"], select { padding: 12px; border: 1px solid #ccc; border-radius: 6px; font-size: 15px; outline: none; transition: 0.3s; background: white; }
+input[type="text"]:focus, select:focus { border-color: #0055aa; box-shadow: 0 0 5px rgba(0,85,170,0.15); }
+
+/* Sehemu ya Kupakia Picha */
+.upload-box { border: 2px dashed #bbb; padding: 15px; border-radius: 6px; text-align: center; background: #fff; cursor: pointer; transition: 0.3s; position: relative; }
+.upload-box:hover { border-color: #0055aa; background: #f9fbfd; }
+.upload-box input[type="file"] { width: 100%; font-size: 12px; cursor: pointer; }
+
+.preview-img { width: 80px; height: 80px; border-radius: 50%; object-fit: cover; display: none; margin: 10px auto 0 auto; border: 2px solid #003366; }
+
+.btn-admin { background-color: #003366; color: white; border: none; padding: 14px 25px; font-size: 16px; font-weight: bold; border-radius: 6px; cursor: pointer; transition: 0.3s; width: 100%; box-shadow: 0 4px 12px rgba(0,51,102,0.2); }
+.btn-admin:hover { background-color: #002244; transform: translateY(-1px); }
+
+footer { text-align: center; color: #888; font-size: 13px; margin-top: 30px; }
+    </style>
+</head>
+<body>
+
+    <div class="dashboard-container">
+        <div class="dashboard-header">
+            <div class="ballot-header">
+            <h1>MBEYA UNIVERSITY OF SCIENCE AND TECHNOLOGY</h1>
+            <img src="must.png" alt="MUST Logo" width="140px" height="100px" style="margin-top: 10px;">
+        </div>
+            <h2>E-VOTING ADMIN DASHBOARD</h2>
+            <p>Register New Candidates and Upload Candidate profile Picture</p>
+        </div>
+
+        <div th:if="${uploadError}" style="color:#721c24;background-color:#f8d7da;padding:10px;border-radius:5px;margin:15px 0;font-weight:bold;text-align:center;">
+            ⚠️ <span th:text="${uploadError}">Error</span>
+        </div>
+        <div th:if="${param.success}" style="color:#155724;background-color:#d4edda;padding:10px;border-radius:5px;margin:15px 0;font-weight:bold;text-align:center;">
+            ✅ Candidate(s) is registered successfull.
+        </div>
+        <div class="form-section">
+            <div class="section-title">1. Register Presidential &amp; Vice Presidential Team
+                <span th:text="'(' + ${presidentCount} + '/3)'">(0/3)</span>
+            </div>
+            <form th:action="@{/admin/addCandidate}" method="POST" enctype="multipart/form-data">
+                <input type="hidden" name="position_type" value="President">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="pres_name">President Full Name</label>
+                        <input type="text" id="pres_name" name="mainName" placeholder="e.g., John J. Doe" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="vice_name">Vice President Full Name</label>
+                        <input type="text" id="vice_name" name="viceName" placeholder="e.g., Jane S. Smith" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="coalition">Coalition/Party Name</label>
+                        <input type="text" id="coalition" name="coalitionName" placeholder="e.g., Alliance Party" required>
+                    </div>
+                </div>
+
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Upload President Photo</label>
+                        <div class="upload-box">
+                            <input type="file" name="main_photo" accept="image/*" onchange="previewAdminImage(this)" required>
+                            <img src="" class="preview-img" alt="Preview">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Upload Vice President Photo</label>
+                        <div class="upload-box">
+                            <input type="file" name="vice_photo" accept="image/*" onchange="previewAdminImage(this)" required>
+                            <img src="" class="preview-img" alt="Preview">
+                        </div>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-admin">Save Presidential Team</button>
+            </form>
+        </div>
+
+        <div class="form-section">
+            <div class="section-title">2. Register College or Department MP
+                <span th:text="'(Uploaded- College MP: ' + ${collegeMpCount} + ', Department MP: ' + ${deptMpCount} + ' | Maximum: 3 candidate per college/department)'">(0, 0)</span>
+            </div>
+            <form th:action="@{/admin/addCandidate}" method="POST" enctype="multipart/form-data">
+                
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="mp_name">Candidate Full Name</label>
+                        <input type="text" id="mp_name" name="mainName" placeholder="e.g., Ali B. Omar" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="mp_position">Position Type</label>
+                        <select id="mp_position" name="position_type" onchange="handlePositionChange()" required>
+                            <option value="" disabled selected>Select Position</option>
+                            <option value="College_MP">College MP</option>
+                            <option value="Department_MP">Department MP</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-grid">
+                    <div class="form-group" id="college_group">
+                        <label for="mp_college">Select College</label>
+                        <select id="mp_college" name="college">
+                            <option value="1">CET</option>
+                            <option value="2">CoACT</option>
+                            <option value="3">CoICT</option>
+                            <option value="4">CoSTE</option>
+                            <option value="5">CoHBS</option>
+                            <option value="6">CoAST</option>
+                            <option value="7">MUST RUKWA CAMPUS COLLEGE</option>
+                            <option value="8">MTWARA CAMPUS COLLEGE OF TECH EDUCATION</option>
+                        </select>
+                    </div>
+                    <div class="form-group" id="dept_group">
+                        <label for="mp_dept">Select Department</label>
+                        <select id="mp_dept" name="department">
+                            <option value="1">Department of Civil Engineering</option>
+                            <option value="2">Department of Geoscience and Mining Technology</option>
+                            <option value="3">Department of Electrical and Power Engineering</option>
+                            <option value="4">Department of Mechanical and Industrial Engineering</option>
+                            <option value="5">Department of Chemical processing and environmental Engineering</option>
+                            <option value="6">Department of Archtecture and Art design </option>
+                            <option value="7">Department of Construction managment and Technology</option>
+                            <option value="8">Department of Information Technology</option>
+                            <option value="9">Department of Computer Science and Engineering</option>
+                            <option value="10">Department of Electronic and Telecommunication Engineering</option>
+                            <option value="11">Department of Informatics</option>
+                            <option value="12">Department of Applied science</option>
+                            <option value="13">Department of Mathematics and Statistics</option>
+                            <option value="14">Department of Natural Science</option>
+                            <option value="15">Department of Business Managment</option>
+                            <option value="16">Department of Medical Science and Technology</option>
+                            <option value="17">Department of Food Science and Technology</option>
+                            <option value="18">Department of Technical Education</option>
+                            <option value="19">Department of Earth Science</option>
+                            <option value="20">Department of Humanities</option>
+                            <option value="21">Department of Crop science and Horticulture</option>
+                            <option value="22">Department of Engineering and Technical Education</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Upload Candidate Photo</label>
+                        <div class="upload-box">
+                            <input type="file" name="main_photo" accept="image/*" onchange="previewAdminImage(this)" required>
+                            <img src="" class="preview-img" alt="Preview">
+                        </div>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-admin">Save MP Candidate</button>
+                
+            </form>
+             <a th:href="@{/admin/results}"><button type="button" style="margin: 20px auto; display: block; background-color: #0055aa; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;">View Results</button></a>
+        </div>
+
+    </div>
+
+    <footer>
+        <p>&copy; 2026 Secured E-Voting Administration Panel.</p>
+    </footer>
+
+    <script>
+        function previewAdminImage(inputElement) {
+            const file = inputElement.files[0];
+            if (file) {
+                const reader = new FileReader();
+                const imgElement = inputElement.parentElement.querySelector('.preview-img');
+                
+                reader.onload = function(e) {
+                    imgElement.src = e.target.result;
+                    imgElement.style.display = 'block'; 
+                }
+                reader.readAsDataURL(file);
+            }
+        }
+
+    
+        function handlePositionChange() {
+            const position = document.getElementById('mp_position').value;
+            const collegeGroup = document.getElementById('college_group');
+            const deptGroup = document.getElementById('dept_group');
+            
+            if (position === 'College_MP') {
+                collegeGroup.style.display = 'flex';
+                deptGroup.style.display = 'none'; 
+            } else if (position === 'Department_MP') {
+                collegeGroup.style.display = 'flex';
+                deptGroup.style.display = 'flex'; 
+            }
+        }
+
+        handlePositionChange();
+    </script>
+</body>
+</html>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Meta tag ya kurudisha mtumiaji login page kiotomatiki baada ya sekunde 5 -->
+    <meta http-equiv="refresh" content="5;url=/" />
+    <title>Vote Cast Successfully</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+        body { height: 100vh; display: flex; align-items: center; justify-content: center; background-color: #f4f6f9; padding: 20px; }
+        .success-card { background: white; padding: 50px 30px; border-radius: 12px; max-width: 500px; width: 100%; text-align: center; box-shadow: 0 4px 20px rgba(0,0,0,0.05); border-top: 5px solid #28a745; }
+        .icon { font-size: 70px; color: #28a745; margin-bottom: 20px; }
+        h2 { color: #003366; margin-bottom: 15px; }
+        p { color: #555; font-size: 16px; line-height: 1.6; margin-bottom: 25px; }
+        .countdown { font-size: 13px; color: #888; font-style: italic; }
+        .btn-home { display: inline-block; background-color: #003366; color: white; padding: 12px 25px; text-decoration: none; border-radius: 6px; font-weight: bold; transition: 0.3s; }
+        .btn-home:hover { background-color: #002244; }
+    </style>
+</head>
+<body>
+
+    <div class="success-card">
+        <div class="icon">✅</div>
+        <h2>Thank You! Your Vote Has Been Cast.</h2>
+        <p>Your votes for the President, College MP, and Department MP have been securely submitted and encrypted. Your account is now logged out safely.</p>
+        <a th:href="@{/}" class="btn-home">Return to Home Now</a>
+        <div class="countdown"><br>You will be redirected automatically in 5 seconds...</div>
+    </div>
+
+</body>
+</html>
