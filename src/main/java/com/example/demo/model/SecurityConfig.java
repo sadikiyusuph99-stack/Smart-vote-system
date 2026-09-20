@@ -15,7 +15,7 @@ public class SecurityConfig{
         http
 
         .authorizeHttpRequests(auth -> auth
-            .requestMatchers("/css/**","/js/**","/images/**","/uploads/**","/*.png","/form","/signup","/register","/idhinishakura","/terms","/submitVote","/success","/admin/**","/6","/error","/forgot-password","/reset-password").permitAll()
+            .requestMatchers("/css/**","/js/**","/images/**","/uploads/**","/*.png","/form","/signup","/register","/idhinishakura","/terms","/submitVote","/success","/admin/**","/6","/error","/forgot-password","/reset-password","/index").permitAll()
             .anyRequest().authenticated()
         );
 

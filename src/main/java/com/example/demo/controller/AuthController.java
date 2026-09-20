@@ -12,8 +12,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 
 @Controller
@@ -81,6 +79,10 @@ public class AuthController {
     @GetMapping("/form")
     public String showLoginPage() {
         return "form";
+    }
+    @GetMapping("/index")
+    public String showIndexPage() {
+        return "index";
     }
 
     // Kuonyesha ukurasa wa Forgot Password
