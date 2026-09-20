@@ -30,7 +30,8 @@ public class AdminController {
     private final CandidateRepository candidateRepository;
 
     // Folda ambapo picha zitahifadhiwa ndani ya seva yako
-    private static final String UPLOAD_DIR = "src/main/resources/static/uploads/";
+    @org.springframework.beans.factory.annotation.Value("${app.upload.dir}")
+private String UPLOAD_DIR;
 
     AdminController(CandidateRepository candidateRepository) {
         this.candidateRepository = candidateRepository;
