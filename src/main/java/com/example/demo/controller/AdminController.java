@@ -142,7 +142,7 @@ private String UPLOAD_DIR;
     @GetMapping("/results/pdf")
 public void downloadResultsPDF(jakarta.servlet.http.HttpServletResponse response) throws java.io.IOException {
     response.setContentType("application/pdf");
-    response.setHeader("Content-Disposition", "attachment; filename=Ripoti_ya_Matokeo_2026.pdf");
+    response.setHeader("Content-Disposition", "attachment; filename=MUSTSO_ELECTION_RESULTS_2026.pdf");
 
     java.util.List<java.util.Map<String, Object>> results = candidateRepository.getElectionResults();
    com.lowagie.text.Document document = new com.lowagie.text.Document(com.lowagie.text.PageSize.A4);
@@ -150,7 +150,7 @@ public void downloadResultsPDF(jakarta.servlet.http.HttpServletResponse response
 
    document.open();
 
-   com.lowagie.text.Paragraph title = new com.lowagie.text.Paragraph("Ripoti ya Matokeo ya Uchaguzi 2026");
+   com.lowagie.text.Paragraph title = new com.lowagie.text.Paragraph("MUSTSO ELECTION RESULTS 2026");
     title.setAlignment(com.lowagie.text.Element.ALIGN_CENTER);
     document.add(title);
     document.add(new com.lowagie.text.Paragraph("\n")); // Piga mstari wa mapumziko
